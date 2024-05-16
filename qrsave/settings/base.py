@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-(3ww&migj9gwl(t4r2-137cjit=6=vc-c&z1bul-6tj=9k*e-9
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 MEDIA_URL = '/media/'
@@ -126,3 +126,5 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+STATIC_ROOT = 'qrsave/static'
+MEDIA_ROOT = 'qrsave/media'
