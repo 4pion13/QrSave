@@ -33,3 +33,7 @@ class InformationAboutBoxes(models.Model):
     def get_absolute_url(self):
         return reverse('qr:qr_detail', args=[self.publish.day, self.publish.month, self.publish.year, self.slug, self.id])
 
+
+
+    def _str_(self):
+        return self.title

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input id="form" required="" type="checkbox">
+    <label for="form">
+    Отправляя сообщение, я подтверждаю, что ознакомлен и согласен с политикой конфиденциальности данного сайта
+    </label>
+    <input id="form" required="" type="checkbox">
+    <label for="form">
+    Отправляя сообщение, я подтверждаю, что ознакомлен и согласен с политикой конфиденциальности данного сайта
+    </label>
+    <input id="form" required="" type="checkbox">
+    <label for="form">
+    Отправляя сообщение, я подтверждаю, что ознакомлен и согласен с политикой конфиденциальности данного сайта
+    </label>
+    <input id="form" required="" type="checkbox">
+    <label for="form">
+    Отправляя сообщение, я подтверждаю, что ознакомлен и согласен с политикой конфиденциальности данного сайта
+    </label>
+    <input class="btn" value="Заказать" type="submit" disabled="">
+
+
+    <script>
+        form.onchange = function(){
+        var button = document.body.getElementsByClassName('btn')[0];
+        if(button.disabled) button.disabled = false;
+        else button.disabled = true;
+        }
+    </script>
+</body>
+</html>
