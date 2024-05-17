@@ -15,5 +15,5 @@ DATABASES = {
     }
 }
 
-STATIC_ROOT = 'qrsave/static'
-MEDIA_ROOT = 'qrsave/media'
+STATIC_ROOT = '/var/www/qrsave/static'
+MEDIA_ROOT = '/var/www/qrsave/media'
