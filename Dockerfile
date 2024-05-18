@@ -12,6 +12,7 @@ WORKDIR /qrsave_app
 
 COPY requirements.txt .
 COPY manage.py .
+COPY start.sh .
 
 RUN pip3 install -r requirements.txt
 
@@ -19,7 +20,7 @@ COPY qrsave/ qrsave/
 COPY qr/ qr/
 COPY django.ini /etc/uwsgi/apps-enabled/django.ini
 
+RUN chmod +x start.sh
 
 EXPOSE 8000
-EXPOSE 8001
-CMD ["uwsgi", "--ini", "/etc/uwsgi/apps-enabled/django.ini"]
+CMD ["start.sh"]
