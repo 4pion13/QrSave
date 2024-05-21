@@ -39,7 +39,7 @@ migrate:
   script:
     - docker build --rm=true -t qrsave .
     - if [ $( docker ps -a | grep qrsave | wc -l ) -gt 0 ]; then docker stop qrsave; fi
-    - docker run --env DJANGO_SETTINGS_MODULE=qrsave.settings.test --env DB_HOST=192.168.68.67 --rm -dit -p 8182:8000 --name qrsave qrsave migrate.sh
+    - docker run --env DJANGO_SETTINGS_MODULE=qrsave.settings.test --env DB_HOST=192.168.68.67 --rm -dit -p 8182:8000 --name qrsave qrsave ./migrate.sh
   when: manual
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
