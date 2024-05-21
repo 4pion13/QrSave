@@ -12,7 +12,7 @@ WORKDIR /qrsave_app
 
 COPY requirements.txt .
 COPY manage.py .
-COPY migrate.sh
+COPY migrate.sh .
 
 RUN chmod -x migrate.sh
 
