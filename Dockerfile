@@ -14,7 +14,7 @@ COPY requirements.txt .
 COPY manage.py .
 COPY migrate.sh .
 
-RUN chmod -x migrate.sh
+RUN chmod 777 migrate.sh
 
 RUN pip3 install -r requirements.txt
 
