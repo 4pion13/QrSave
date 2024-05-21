@@ -19,7 +19,7 @@ COPY qrsave/ qrsave/
 COPY qr/ qr/
 COPY django.ini /etc/uwsgi/apps-enabled/django.ini
 
-RUN python3 manage.py migrate
+RUN export DJANGO_SETTINGS_MODULE=qrsave.settings.test && python3 manage.py migrate
 
 EXPOSE 8000
 CMD ["uwsgi", "--ini", "/etc/uwsgi/apps-enabled/django.ini"]
