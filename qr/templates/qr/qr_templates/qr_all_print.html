@@ -1,0 +1,25 @@
+{% extends "qr/base.html" %}
+
+
+{% block title %}Все выбранные QR{% endblock %}
+
+
+{% block content %}
+
+<div class="dropdown position-fixed bottom-0 mb-3 bd-mode-toggle d-grid gap-2 col-12 mx-auto">
+    <input type="button" class="btn btn-primary qr-button btn-lg " onclick="printDiv('print-content')" value="Распечатать"/>
+</div>
+
+<container class="all">
+    <div id="print-content">
+        <form>
+            {% for item in img_data %}
+                    <img src="media/{{item}}" style="width: 100px;">
+            {% endfor %}
+        </form>
+    </div>
+</container>
+    
+
+
+{% endblock %}

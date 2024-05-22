@@ -1,19 +1,26 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import InformationAboutBoxes
 import qrcode, tempfile, zipfile
 import base64
 from django.conf import settings
 import os
+from django.urls import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 #Paginator - инструмент создания нумераций страниц
 #EmptyPage - обработка ошибок связанных с не существующим номером страницы
 #PageNotAnInteger - обработка ошибок связанных с типом введеных данных в page
-from django.http import Http404,QueryDict, FileResponse, HttpResponse, StreamingHttpResponse
+from django.http import Http404,QueryDict, FileResponse, HttpResponse, StreamingHttpResponse, HttpResponseRedirect
 from django.views.generic import ListView
 from django.core.mail import send_mail
 from django.views.decorators.http import require_POST
 from wsgiref.util import FileWrapper
+from django.contrib.auth.decorators import login_required
 
+
+
+
+
+@login_required
 def test(request):
     boxes_info = InformationAboutBoxes.published.all()
     data = "https://pythonist.ru/"
@@ -22,7 +29,9 @@ def test(request):
     qr_image=True
     form_value = request.POST.copy()
     file_name_list = form_value.getlist('check')
-    if request.method == 'POST':
+    print(f'РЕЗУЛЬАТ{form_value}')
+
+    if 'download' in form_value:
         temp = tempfile.TemporaryFile()
         archive = zipfile.ZipFile(temp, 'w', zipfile.ZIP_DEFLATED)   
             #response = FileResponse(open(path_to_file, 'rb'))
@@ -39,6 +48,12 @@ def test(request):
         response['Content-Disposition'] = 'attachment; filename=qrcodes.zip'
 
         return response
+
+    elif 'print' in request.POST:
+        
+        return qr_all_print(request, data_list = ",".join(str(element) for element in file_name_list))
+        # do something else
+        ç
                     #if os.path.exists(path_to_file):
                         #with open(path_to_file, 'rb') as fh:
                             #response = HttpResponse(fh.read(), content_type="application/vnd.png")
@@ -49,11 +64,21 @@ def test(request):
                     
                     #raise Http404
 
-    return render(request, 'main.html', {'boxesinfo':boxes_info, 'qr_image':qr_image})
+    return render(request, 'qr/qr_templates/main.html', {'boxesinfo':boxes_info, 'qr_image':qr_image})
 
-
+@login_required
 def qr_detail(request, year, month, day, post, id):
     detail_data = get_object_or_404(InformationAboutBoxes, status=InformationAboutBoxes.Status.PUBLISHED, slug=post, publish__year=year, publish__month=month,
                              publish__day=day, id=id)
     print(year, month, day, post)
-    return render(request, 'detail.html', {'detail_data':detail_data})
+    return render(request, 'qr/qr_templates/detail.html', {'detail_data':detail_data})
+
+
+@login_required
+def qr_all_print(request, data_list):
+    img_data = data_list.split(",")
+    return render(request, 'qr/qr_templates/qr_all_print.html', {'img_data': img_data})
+
+
+
+

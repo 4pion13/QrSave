@@ -1,0 +1,11 @@
+{% extends "registration/base_login.html" %}
+
+{% block content %}
+  <main class="flex-shrink-0">
+    <div class="container">
+      <h1 class="mt-5">Вы вышли из аккаунта.</h1>
+      <p class="lead"><a href="{% url 'apphome:home'%}">Перейти на главную страницу</a></p>
+      <p>Войти в <a href="{% url 'login'%}">аккаунт</p>
+    </div>
+  </main>
+{% endblock %}

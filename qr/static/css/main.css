@@ -1,1 +1,20 @@
 .hidden { display: none; }
+
+.all {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.all-qr {
+    flex-wrap: wrap;
+}
+
+
+.mr-10px {
+    margin-right: 10px;
+}
+
+.ml-10px {
+    margin-left: 10px;
+}

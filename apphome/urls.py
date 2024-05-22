@@ -3,19 +3,14 @@ from . import views
 from django.conf.urls.static import static
 from django.conf import settings
 
-app_name = 'qr'
+app_name = 'home'
 
 urlpatterns = [
     #Урл на основе представления функции
     #path('', views.post_list, name='post_list'),
     #############################################
-    path('', views.test, name='test'),
-    path('<int:day>/<int:month>/<int:year>/<slug:post>/<int:id>', views.qr_detail, name='qr_detail'),
-    path('qr_all/qr/<str:data_list>', views.qr_all_print, name='qr_all'),
+    path('', views.home, name='home'),
     
-    #path('<int:post_id>/share/', views.post_share, name='post_share'),
-    #path('<int:post_id>/comment/', views.post_comment, name='post_comment')
-
 ]
 
 
