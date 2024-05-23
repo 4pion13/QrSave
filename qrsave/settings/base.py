@@ -34,14 +34,15 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
+    'qr.apps.QrConfig',
+    'apphome.apps.ApphomeConfig',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'qr.apps.QrConfig',
-    'apphome.apps.ApphomeConfig',
     'django.contrib.auth',
+    'django.contrib.admin',
+
 ]
 
 MIDDLEWARE = [
@@ -55,11 +56,11 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'qrsave.urls'
-
+import os
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -130,4 +131,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATIC_ROOT = 'qrsave/static'
 MEDIA_ROOT = 'qrsave/media'
 LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = "/"
+
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.googlemail.com'
+EMAIL_HOST_USER = '3dphystech@gmail.com'
+EMAIL_HOST_PASSWORD = 'ifjc graw qsng lhww'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
