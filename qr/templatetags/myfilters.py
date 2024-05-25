@@ -1,4 +1,5 @@
 from django import template
+from django.http import QueryDict
 
 register = template.Library()
 
@@ -8,6 +9,12 @@ def addclass(value, arg):
 
 
 
-@register.filter(name='addid')
-def addid(value, arg):
-    return value.as_widget(attrs={'id': arg})
+@register.filter(name='onchange')
+def onchange(value, arg):
+    return value.as_widget(attrs={'onchange': arg})
+
+
+@register.filter
+def replace(value, args):
+    qs = QueryDict(args)
+    return value.replace(qs.get('cherche',''), qs.get('remplacement',''))

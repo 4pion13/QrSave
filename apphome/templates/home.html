@@ -51,7 +51,7 @@
                 </a>
 
                 {% if request.user.is_authenticated %}
-                    <form action="{% url 'logout' %}" method="post">
+                    <form action="{% url 'logout' %}?next=qr/registration/logged_out.html" method="post">
                         {% csrf_token %}
                         <button type="button" class="btn btn-sm btn-outline-primary ml-10px" data-bs-toggle="modal" data-bs-target="#exampleModal">Выйти</button>
                     </form>
@@ -84,7 +84,7 @@
                 
                 <div>
                 <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">Коробки</h3>
-                <a href="{% url 'qr:test' %}"><p>Создать</p></a>
+                <a href="{% url 'qr:new_box' %}"><p>Создать</p></a>
                 </div>
             </div>
             

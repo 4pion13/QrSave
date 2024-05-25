@@ -4,6 +4,7 @@ import qrcode, tempfile, zipfile
 import base64
 from django.conf import settings
 import os
+from .forms import InfoBoxes
 from django.urls import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 #Paginator - инструмент создания нумераций страниц
@@ -80,5 +81,20 @@ def qr_all_print(request, data_list):
     return render(request, 'qr/qr_templates/qr_all_print.html', {'img_data': img_data})
 
 
+@login_required
+def filling_out_forms_about_boxes(request):
+    sent = False
+    if request.method == 'POST':
+        form = InfoBoxes(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            title = cd['title']
+            content = cd['content']
+            img = cd['img']
+            print(title, content, img)
+            sent = True
 
+    else:
+        form = InfoBoxes()
 
+    return render(request, 'qr/qr_templates/info_about_boxes_input.html', {'form':form, 'status':sent})
