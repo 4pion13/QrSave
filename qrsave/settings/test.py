@@ -2,7 +2,9 @@
 import os
 from .base import *
 
-ALLOWED_HOSTS = ['qrsave-test.novikov-sa.ru']
+ALLOWED_HOSTS = ['qrsave-test.novikov-sa.ru', 'localhost', '192.168.68.67']
+CSRF_TRUSTED_ORIGINS = ['https://qrsave-test.novikov-sa.ru']
+CORS_ORIGIN_WHITELIST = ['https://qrsave-test.novikov-sa.ru']
 
 DATABASES = {
     'default': {
