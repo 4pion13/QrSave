@@ -90,8 +90,8 @@ def filling_out_forms_about_boxes(request):
             cd = form.cleaned_data
             title = cd['title']
             content = cd['content']
-            img = cd['img']
-            print(title, content, img)
+            images = cd['img']
+            print(title, content, images)
             sent = True
 
     else:

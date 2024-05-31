@@ -7,3 +7,7 @@ class InfoBoxes(forms.ModelForm):
     class Meta:
         model = InformationAboutBoxes
         fields = ['title', 'content', 'img']
+        #widgets = {
+        #    'title': forms.TextInput(attrs={'class': 'form-control'}),
+        #    'content': forms.Textarea(attrs={'cols': 60, 'rows': 10}),
+        #}

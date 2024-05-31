@@ -22,33 +22,32 @@
         <h1 class="border-bottom pb-2 mb-3">Новая коробка</h1>
         <div class="px-3 py-1 bg-body rounded shadow-sm mb-2">
                 <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Название коробки</label>
+                    <label for="id_title" class="form-label">Название коробки</label>
                     {{ form.title|addclass:'form-control' }}
                 </div>
         </div>
         <div class="px-3 py-1 bg-body rounded shadow-sm mb-2">
             <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Описание</label>
+                <label for="id_content" class="form-label">Описание</label>
                 {{ form.content|addclass:'form-control' }}
             </div>
         </div>
         
-        <div class="px-3 py-2 bg-body rounded shadow-sm mb-3">
-            <label for="exampleInputEmail1" class="form-label">Изображение содержимого коробки</label>
-            <div>
-                        <div class="mb-4 d-flex justify-content-center">
-                            <img id="selectedImage" src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg"
-                            alt="example placeholder" style="width: 300px;" />
-                        </div>
-                        <div class="d-flex justify-content-center">
-                            {{ form.img|onchange:"displaySelectedImage(event, 'selectedImage')" }}
-                        </div>
-            </div>
+
+         <div class="px-3 py-2 bg-body rounded shadow-sm mb-3">
+            <label for="id_img" class="form-label">Изображение содержимого коробки</label>
+             <div>
+                 <div class="mb-4 d-flex justify-content-center">
+                     <img id="selectedImage" src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg"
+                          alt="example placeholder" style="width: 300px;" />
+                 </div>
+                 <div class="d-flex justify-content-center">
+                     {{ form.img|onchange:"displaySelectedImage(event, 'selectedImage')" }}
+                 </div>
+             </div>
+         </div>
 
 
-
-        </div>
-            
             <button type="submit" class="btn btn-primary qr-button btn-lg col-12">Создать</button>
 
     </div>
