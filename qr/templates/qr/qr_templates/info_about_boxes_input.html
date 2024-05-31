@@ -2,14 +2,23 @@
 {% block title %}Новая коробка{% endblock %}
 {% load myfilters %}
 {% block content %}
-<a href="{% url 'apphome:home' %}">
-    <div class="p-3">
-      <i class="fa-solid fa-arrow-right fa-flip-horizontal fa-xl" style="color: #0a0a0a;"></i>
+{% if sent %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>Коробка создана!</strong> <a href="{% url 'qr:test' %}">Перейти к моим коробкам</a>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-  </a>
+
+{% endif %}
+
+
 <form method="post">
     {% csrf_token %}
-    <div class="container p-2">
+    <div class="container">
+        <a href="{% url 'apphome:home' %}">
+            <div style="padding: 20px 0px 20px 0px">
+              <i class="fa-solid fa-arrow-right fa-flip-horizontal fa-xl" style="color: #0a0a0a;"></i>
+            </div>
+        </a>
         <h1 class="border-bottom pb-2 mb-3">Новая коробка</h1>
         <div class="px-3 py-1 bg-body rounded shadow-sm mb-2">
                 <div class="mb-3">

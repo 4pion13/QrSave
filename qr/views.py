@@ -85,7 +85,7 @@ def qr_all_print(request, data_list):
 def filling_out_forms_about_boxes(request):
     sent = False
     if request.method == 'POST':
-        form = InfoBoxes(request.POST)
+        form = InfoBoxes(request.POST, request.FILES)
         if form.is_valid():
             cd = form.cleaned_data
             title = cd['title']
