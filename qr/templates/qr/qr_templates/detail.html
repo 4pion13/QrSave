@@ -1,27 +1,33 @@
 {% extends "qr/base.html" %}
 {% block title %}{{detail_data.title}}{% endblock %}
 {% block content %}
-    <a href="{% url 'qr:test' %}">
-      <div class="p-3">
+
+<div class="container">
+  <a href="{% url 'qr:test' %}">
+      <div style="padding: 20px 0px 20px 0px">
         <i class="fa-solid fa-arrow-right fa-flip-horizontal fa-xl" style="color: #0a0a0a;"></i>
       </div>
     </a>
-    <div class="row d-flex flex-column flex-md-row p-4 gap-4 py-md-5 align-items-center justify-content-center">
-      <div class="col-10">
+    <div class="row d-flex flex-column flex-md-row gap-4 py-md-5 align-items-center justify-content-center">
+      <div class="">
         <div class="list-group" id="list-tab" role="tablist">
-          <a class="list-group-item list-group-item-action active" id="list-home-list" data-bs-toggle="list" href="#list-home" role="tab" aria-controls="list-home">Название</a>
+          <a class="list-group-item list-group-item-action active" id="list-photo-list" data-bs-toggle="list" href="#list-photo" role="tab" aria-controls="list-photo">Название</a>
+          <a class="list-group-item list-group-item-action" id="list-home-list" data-bs-toggle="list" href="#list-home" role="tab" aria-controls="list-home">Название</a>
           <a class="list-group-item list-group-item-action" id="list-profile-list" data-bs-toggle="list" href="#list-profile" role="tab" aria-controls="list-profile">Описание</a>
           <a class="list-group-item list-group-item-action" id="list-messages-list" data-bs-toggle="list" href="#list-messages" role="tab" aria-controls="list-messages">Дата</a>
             <a class="list-group-item list-group-item-action" id="list-qr-list" data-bs-toggle="list" href="#list-qr" role="tab" aria-controls="list-messages">Qr</a>
         </div>
       </div>
-      <div class="col-10 d-flex flex-column flex-md-row p-4 gap-4 py-md-5 align-items-center justify-content-center">
+      <div class="d-flex flex-column flex-md-row p-4 gap-4 py-md-5 align-items-center justify-content-center">
         <div class="tab-content" id="nav-tabContent">
-          <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">{{detail_data.title}}</div>
+          <div class="tab-pane fade show active" id="list-photo" role="tabpanel" aria-labelledby="list-photo-list"><img src="/media/{{detail_data.img_photo}}" style="width: 300px;"></div>
+          <div class="tab-pane fade" id="list-home" role="tabpanel" aria-labelledby="list-home-list">{{detail_data.title}}</div>
           <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">{{detail_data.content}}</div>
           <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">{{detail_data.publish}}</div>
-            <div class="tab-pane fade" id="list-qr" role="tabpanel" aria-labelledby="list-qr-list"><img src="/media/{{detail_data.img}}" style="width: 150px;"></div>
+          <div class="tab-pane fade" id="list-qr" role="tabpanel" aria-labelledby="list-qr-list"><img src="/media/{{detail_data.img}}" style="width: 150px;"></div>
         </div>
       </div>
     </div>
+</div>
+
 {% endblock %}

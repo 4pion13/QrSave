@@ -3,7 +3,7 @@ from .models import InformationAboutBoxes
 import qrcode, tempfile, zipfile
 import base64
 from django.conf import settings
-import os
+import os, uuid
 from .forms import InfoBoxes
 from django.urls import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -16,21 +16,29 @@ from django.core.mail import send_mail
 from django.views.decorators.http import require_POST
 from wsgiref.util import FileWrapper
 from django.contrib.auth.decorators import login_required
-
-
-
+from django.db.models.functions import Lower
+from django.http import JsonResponse
+from django.shortcuts import HttpResponse
 
 
 @login_required
 def test(request):
-    boxes_info = InformationAboutBoxes.published.all()
-    data = "https://pythonist.ru/"
-    filename = "site.png"
-    img = qrcode.make(data)
+    boxes_info = InformationAboutBoxes.objects.filter(author=request.user, status=InformationAboutBoxes.Status.PUBLISHED)
     qr_image=True
+    search = False
+    inp_value = ''
     form_value = request.POST.copy()
+    form_value_get = request.GET.copy()
     file_name_list = form_value.getlist('check')
-    print(f'РЕЗУЛЬАТ{form_value}')
+
+    if 'search' in request.GET:
+        inp_value = request.GET.get('results', 'This is a default value')
+        print(inp_value)
+        if "".__eq__(inp_value):
+            pass
+        else:
+            boxes_info = InformationAboutBoxes.objects.filter(title__icontains=inp_value, author=request.user,status=InformationAboutBoxes.Status.PUBLISHED)
+            search = True
 
     if 'download' in form_value:
         temp = tempfile.TemporaryFile()
@@ -53,25 +61,14 @@ def test(request):
     elif 'print' in request.POST:
         
         return qr_all_print(request, data_list = ",".join(str(element) for element in file_name_list))
-        # do something else
-        ç
-                    #if os.path.exists(path_to_file):
-                        #with open(path_to_file, 'rb') as fh:
-                            #response = HttpResponse(fh.read(), content_type="application/vnd.png")
-                            #response['Content-Disposition'] = 'inline; filename=' + os.path.basename(path_to_file)
-                            #return response
-                            
-                
-                    
-                    #raise Http404
 
-    return render(request, 'qr/qr_templates/main.html', {'boxesinfo':boxes_info, 'qr_image':qr_image})
+
+    return render(request, 'qr/qr_templates/main.html', {'boxesinfo':boxes_info, 'qr_image':qr_image, 'search':search, 'input':inp_value})
 
 @login_required
-def qr_detail(request, year, month, day, post, id):
-    detail_data = get_object_or_404(InformationAboutBoxes, status=InformationAboutBoxes.Status.PUBLISHED, slug=post, publish__year=year, publish__month=month,
-                             publish__day=day, id=id)
-    print(year, month, day, post)
+def qr_detail(request, box_id):
+    detail_data = get_object_or_404(InformationAboutBoxes, status=InformationAboutBoxes.Status.PUBLISHED, box_id=box_id)
+
     return render(request, 'qr/qr_templates/detail.html', {'detail_data':detail_data})
 
 
@@ -87,11 +84,21 @@ def filling_out_forms_about_boxes(request):
     if request.method == 'POST':
         form = InfoBoxes(request.POST, request.FILES)
         if form.is_valid():
-            cd = form.cleaned_data
-            title = cd['title']
-            content = cd['content']
-            images = cd['img']
-            print(title, content, images)
+            current_user = request.user
+            print(current_user.id)
+            data_save = form.save(commit=False)
+            data_save.author = current_user
+            data_save.status = InformationAboutBoxes.Status.PUBLISHED
+            box_id = uuid.uuid4().hex
+            data_save.box_id = box_id
+            data = f"http://127.0.0.1:8000/qr/{box_id}/"
+            filename = f"{box_id}.png"
+            path = f"images/{filename}"
+            image = qrcode.make(data)
+            image.save(f"qrsave/media/images/{filename}")
+            data_save.img = path
+            data_save.save()
+            form = InfoBoxes()
             sent = True
 
     else:

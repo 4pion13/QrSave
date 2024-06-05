@@ -2,16 +2,11 @@
 {% block title %}Новая коробка{% endblock %}
 {% load myfilters %}
 {% block content %}
-{% if sent %}
-    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        <strong>Коробка создана!</strong> <a href="{% url 'qr:test' %}">Перейти к моим коробкам</a>
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-
-{% endif %}
 
 
-<form method="post">
+
+
+<form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="container">
         <a href="{% url 'apphome:home' %}">
@@ -20,6 +15,12 @@
             </div>
         </a>
         <h1 class="border-bottom pb-2 mb-3">Новая коробка</h1>
+        {% if status %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Коробка создана!</strong> <a href="{% url 'qr:test' %}">Перейти к моим коробкам</a>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endif %}
         <div class="px-3 py-1 bg-body rounded shadow-sm mb-2">
                 <div class="mb-3">
                     <label for="id_title" class="form-label">Название коробки</label>
@@ -42,13 +43,13 @@
                           alt="example placeholder" style="width: 300px;" />
                  </div>
                  <div class="d-flex justify-content-center">
-                     {{ form.img|onchange:"displaySelectedImage(event, 'selectedImage')" }}
+                     {{ form.img_photo|onchange:"displaySelectedImage(event, 'selectedImage')" }}
                  </div>
              </div>
          </div>
 
 
-            <button type="submit" class="btn btn-primary qr-button btn-lg col-12">Создать</button>
+            <button type="submit" class="btn btn-primary qr-button btn-lg col-12 mb-3">Создать</button>
 
     </div>
 

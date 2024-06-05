@@ -6,13 +6,34 @@
 
 {% block content %}
 
-<div class="container">
 
-    <a href="{% url 'apphome:home' %}">
-        <div style="padding: 20px 0px 20px 0px">
-          <i class="fa-solid fa-arrow-right fa-flip-horizontal fa-xl" style="color: #0a0a0a;"></i>
-        </div>
-      </a>
+
+<div class="container">
+    <div class="d-flex justify-content-between">
+        <a href="{% url 'apphome:home' %}">
+            <div style="padding: 20px 0px 20px 0px">
+              <i class="fa-solid fa-arrow-right fa-flip-horizontal fa-xl" style="color: #0a0a0a;"></i>
+            </div>
+        </a>
+        <form method="get">
+            <div class="col-12" style="padding: 10px 0px 0px 0px">
+                    <div class="input-group mb-3">
+                      <input type="text" class="form-control" name="results" list="character_one" placeholder="" aria-label="" aria-describedby="button-addon2">
+                      <button class="btn btn-success rounded-0" type="submit" id="button-addon2" name="search">Поиск</button>
+                        <datalist id="character_one">
+                            {% for item in boxesinfo %}
+                                <option value="{{ item.title }}"><a href="{{ item.get_absolute_url }}"></a></option>
+                            {% endfor %}
+                        </datalist>
+                    </div>
+            </div>
+
+        </form>
+
+
+
+    </div>
+
 
   <form id="form" method="post">
     <div class="z-3 dropdown position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle d-flex" >
@@ -23,65 +44,139 @@
 
     <div class="z-0 d-flex flex-column flex-md-row gap-4 py-md-5 align-items-center justify-content-center">
           <div class="list-group col-12">
-            <h1 class="border-bottom pb-2 mb-0">Ваши коробки</h1>
-              {% for item in boxesinfo %}
-                    <div>
 
-                        {% csrf_token %}
-                        <div class="my-3 p-3 bg-body rounded shadow-sm">
-                          <a href="{{ item.get_absolute_url }}">
-                            <div class="d-flex text-body-secondary pt-3">
-                              <div class="mr-10px">
-                                <input class="form-check-input" type="checkbox" id="checkboxNoLabel{{ forloop.counter }}" name="check" value="{{ item.img }}" aria-label="..." style="width: 30px; height: 30px;">
-                              </div>
-                              <p class="pb-3 mb-0 small lh-sm border-bottom">
-                                <strong class="d-block text-gray-dark">{{item.title}}</strong>
-                                {{ item.content }}
-                              </p>
-                            </div>
-                          </a>
-
-                          <small class="d-block text-end mt-3">
-                            <a href="#" role="button" data-bs-toggle="collapse" data-bs-target="#collapseExample{{ forloop.counter }}" aria-expanded="false" aria-controls="collapseExample">Показать QR</a>
-                          </small>
-                        </div>
-
-
-
-                      </form>
-
-
-                    <div class="collapse" id="collapseExample{{ forloop.counter }}">
-                      <div class="card card-body ">
-                        {% if qr_image %}
-                        <div id="print-content">
-                            <form>
-                                <img src="media/{{ item.img }}" class="qr-code" style="width: 100px;">
-
-                            </form>
-                        </div>
-                          <input type="button" class="btn btn-primary qr-button " onclick="printDiv('print-content')" value="Распечатать"/>
-                    {% endif %}
-                      </div>
+              {% if search %}
+                <div class="d-flex justify-content-between align-items-center border-bottom mb-1">
+                    <h1 class=" pb-2">Ваши коробки</h1>
+                    <div class="d-flex  ">
+                        <a href="{% url 'qr:test' %}"><button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Закрыть"></button></a>
+                        <p>{{ input }}</p>
                     </div>
 
+                </div>
+                <nav aria-label="breadcrumb">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'apphome:home' %}">Главная</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'qr:test' %}">Ваши коробки</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ input }}</li>
+                  </ol>
+                </nav>
 
-              {% empty %}
-                    <p>There are no comments.</p>
-              {% endfor %}
+                {% for item in boxesinfo %}
+                        <div>
+                            {% csrf_token %}
+
+                            <div class="my-3 p-3 bg-body rounded shadow-sm">
+                              <a href="{{ item.get_absolute_url }}">
+                                <div class="d-flex text-body-secondary pt-3">
+                                  <div class="mr-10px">
+                                    <input class="form-check-input" type="checkbox" id="checkboxNoLabel{{ forloop.counter }}" name="check" value="{{ item.img }}" aria-label="..." style="width: 30px; height: 30px;">
+                                  </div>
+                                  <p class="pb-3 mb-0 small lh-sm border-bottom">
+                                    <strong class="d-block text-gray-dark">{{item.title}}</strong>
+                                    {{ item.content }}
+                                  </p>
+                                </div>
+                              </a>
+
+                              <small class="d-block text-end mt-3">
+                                <a href="#" role="button" data-bs-toggle="collapse" data-bs-target="#collapseExample{{ forloop.counter }}" aria-expanded="false" aria-controls="collapseExample">Показать QR</a>
+                              </small>
+                            </div>
+
+
+
+                          </form>
+
+
+                        <div class="collapse" id="collapseExample{{ forloop.counter }}">
+                          <div class="card card-body ">
+                            {% if qr_image %}
+                            <div id="print-content">
+                                <form>
+                                    <img src="media/{{ item.img }}" class="qr-code" style="width: 100px;">
+
+                                </form>
+                            </div>
+                              <input type="button" class="btn btn-primary qr-button " onclick="printDiv('print-content')" value="Распечатать"/>
+                        {% endif %}
+                          </div>
+                        </div>
+
+
+                  {% empty %}
+                        <p class="h5">У вас нет коробок.</p>
+                        <a href="{% url 'qr:new_box' %}"><p>Создать</p></a>
+                  {% endfor %}
+
+
+              {% else %}
+                <h1 class="border-bottom pb-2 mb-1">Ваши коробки</h1>
+                <nav aria-label="breadcrumb">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'apphome:home' %}">Главная</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Ваши коробки</li>
+                  </ol>
+                </nav>
+                  {% for item in boxesinfo %}
+
+                        <div>
+
+                            {% csrf_token %}
+                            <div class="my-3 p-3 bg-body rounded shadow-sm">
+                              <a href="{{ item.get_absolute_url }}">
+                                <div class="d-flex text-body-secondary pt-3">
+                                  <div class="mr-10px">
+                                    <input class="form-check-input" type="checkbox" id="checkboxNoLabel{{ forloop.counter }}" name="check" value="{{ item.img }}" aria-label="..." style="width: 30px; height: 30px;">
+                                  </div>
+                                  <p class="pb-3 mb-0 small lh-sm border-bottom">
+                                    <strong class="d-block text-gray-dark">{{item.title}}</strong>
+                                    {{ item.content }}
+                                  </p>
+                                </div>
+                              </a>
+
+                              <small class="d-block text-end mt-3">
+                                <a href="#" role="button" data-bs-toggle="collapse" data-bs-target="#collapseExample{{ forloop.counter }}" aria-expanded="false" aria-controls="collapseExample">Показать QR</a>
+                              </small>
+                            </div>
+
+
+
+                          </form>
+
+
+                        <div class="collapse" id="collapseExample{{ forloop.counter }}">
+                          <div class="card card-body ">
+                            {% if qr_image %}
+                            <div id="print-content">
+                                <form>
+                                    <img src="media/{{ item.img }}" class="qr-code" style="width: 100px;">
+
+                                </form>
+                            </div>
+                              <input type="button" class="btn btn-primary qr-button " onclick="printDiv('print-content')" value="Распечатать"/>
+                        {% endif %}
+                          </div>
+                        </div>
+
+
+                  {% empty %}
+                        <p class="h5">У вас нет коробок.</p>
+                        <a href="{% url 'qr:new_box' %}"><p>Создать</p></a>
+                  {% endfor %}
 
 
 
 
 
 
-          </div>
+              </div>
+        </div>
+      </form>
+
+
     </div>
-  </form>
-
-
-</div>
-
-
+    {% endif %}
 {% endblock %}
 

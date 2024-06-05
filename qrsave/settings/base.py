@@ -36,6 +36,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 INSTALLED_APPS = [
     'qr.apps.QrConfig',
     'apphome.apps.ApphomeConfig',
+    'useraccount.apps.UseraccountConfig',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
